@@ -47,7 +47,7 @@ function main(){
     gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
     gl.enableVertexAttribArray(aColor);
 
-    translasiObj2D(gl, program);
+   skalasiObj2D(gl, program);
 
     //membuat warna background
     gl.clearColor(1.0, 1.0, 1.0, 1.0);
