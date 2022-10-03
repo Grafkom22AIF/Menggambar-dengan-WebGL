@@ -4,10 +4,10 @@ function main(){
 
     //mendefinisikan titik yg akan dibuat
     var vertices = [
-        0.1, 0.5, 1.0, 0.0, 0.0,   //titik A red
-        0.5, 0.5, 0.0, 1.0, 0.0,   //titik B green
-        0.5, 0.1, 0.0, 0.0, 1.0,    //titik C blue
-        0.1, 0.1, 1.0, 1.0, 1.0    //titik D white
+        0.1, 0.5, 1.0, 1.0, 0.0,   //titik A yellow
+        0.5, 0.5, 1.0, 1.0, 0.0,   //titik B yellow
+        0.5, 0.1, 1.0, 1.0, 0.0,    //titik C yellow
+        0.1, 0.1, 1.0, 1.0, 0.0    //titik D yellow
     ];
 
     //membuat variabel sementara (temporary) untuk menyimpan koordinat sblm digambar
@@ -45,47 +45,15 @@ function main(){
 
     var aColor = gl.getAttribLocation(program, "a_Color");
     gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
-    gl.enableVertexAttribArray(aColor);    
+    gl.enableVertexAttribArray(aColor);
 
-    var PMatriks = gl.getUniformLocation(program, "upMatriks");
-    var VMatriks = gl.getUniformLocation(program, "uvMatriks");
-    var MMatriks = gl.getUniformLocation(program, "umMatriks");
+    rotasi(gl, program);
 
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+    //membuat warna background
+    gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    //mengosongkan canvas
+    gl.clear(gl.COLOR_BUFFER_BIT);
 
-    var proj_matrix = get_projection(40, canvas.width/canvas.height, 1, 100);
-    var mov_matrix = [
-        1,0,0,0,
-        0,1,0,0, 
-        0,0,1,0, 
-        0,0,0,1];
-    var view_matrix = [
-        1,0,0,0, 
-        0,1,0,0, 
-        0,0,1,0, 
-        0,0,0,1];
-
-    view_matrix[14] = view_matrix[14]-1;
-
-    var time_old = 0;
-    var animate = function(time) {
-        var dt = time-time_old;
-        rotateZ(mov_matrix, dt*0.002);
-        time_old = time;
-
-        gl.enable(gl.DEPTH_TEST);
-        gl.depthFunc(gl.LEQUAL);
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
-        gl.clearDepth(1.0);
-        gl.viewport(0.0, 0.0, canvas.width, canvas.height);
-        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        gl.uniformMatrix4fv(PMatriks, false, proj_matrix);
-        gl.uniformMatrix4fv(VMatriks, false, view_matrix);
-        gl.uniformMatrix4fv(MMatriks, false, mov_matrix);
-
-        gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
-        window.requestAnimationFrame(animate);
-    }
-    animate(0);
+    //mulai menggambar
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, 4);
 }
