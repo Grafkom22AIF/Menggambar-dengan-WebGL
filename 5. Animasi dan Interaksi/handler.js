@@ -6,45 +6,40 @@ function translasi(m){
     m[14] = m[14] + dz;
 }
 
-function skalasi(gl, program){
-    var Sx = -0.5, Sy = -0.5, Sz = 1.0;
-    var xformMatrix = new Float32Array([
-    Sx,   0.0,  0.0,  0.0,
-    0.0,  Sy,   0.0,  0.0,
-    0.0,  0.0,  Sz,   0.0,
-    0.0,  0.0,  0.0,  1.0  
-    ]);
+function skalasi(m){
+    var Sx = 0.999, Sy = 0.999, Sz = 1.0;
 
-    var u_xformMatrix = gl.getUniformLocation(program, 'uxformMatrix');
-    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
+    m[0] = m[0] * Sx;
+    m[5] = m[5] * Sy;
+    m[10] = m[10] * Sz;
 }
 
 function shear(gl, program){
     var angle = 45;
     var cota = 1/Math.tan(angle);
-    var xformMatrix = new Float32Array([
+    var matriksShear = new Float32Array([
     1.0,   cota,  0.0,  0.0,
     0.0,  1.0,   0.0,  0.0,
     0.0,  0.0,  1.0,   0.0,
     0.0,  0.0,  0.0,  1.0  
     ]);
 
-    var u_xformMatrix = gl.getUniformLocation(program, 'uxformMatrix');
-    gl.uniformMatrix4fv(u_xformMatrix, false, xformMatrix);
+    var uMatrix = gl.getUniformLocation(program, 'uMatrix');
+    gl.uniformMatrix4fv(uMatrix, false, matriksShear);
 }
 
 /*function rotasi(gl, program){
     var angle = 45;
-    var ct = Math.cos(angle);
-    var st = Math.sin(angle);
-    var rotMatriks = new Float32Array([
-        ct, -st, 0.0, 0.0,
-        st, ct, 0.0, 0.0,
-        0.0, 0.0, 1.0, 0.0,
+    var ca = Math.cos(angle);
+    var sa = Math.sin(angle);
+    var matriksRotasi = new Float32Array([
+        ca, -sa, 0.0, 0.0,
+        sa, ca, 0.0, 0.0,
+        0.0, 0.0, 1.0, 0.0, 
         0.0, 0.0, 0.0, 1.0
     ]);
     var uFormMatriks = gl.getUniformLocation(program, 'uFormMatriks');
-    gl.uniformMatrix4fv(uFormMatriks, false, rotMatriks);
+    gl.uniformMatrix4fv(uFormMatriks, false, matriksRotasi);
 }*/
 
 function rotasi(m, angle) {

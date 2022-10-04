@@ -47,24 +47,24 @@ function main(){
     gl.vertexAttribPointer(aColor, 3, gl.FLOAT, false, 5 * Float32Array.BYTES_PER_ELEMENT, 2 * Float32Array.BYTES_PER_ELEMENT);
     gl.enableVertexAttribArray(aColor);  
     
-    var Pmatrix = gl.getUniformLocation(program, "Pmatrix");
-    var Vmatrix = gl.getUniformLocation(program, "Vmatrix");
-    var Mmatrix = gl.getUniformLocation(program, "Mmatrix");
+    var Pmatrix = gl.getUniformLocation(program, "uProj");
+    var Vmatrix = gl.getUniformLocation(program, "uView");
+    var Mmatrix = gl.getUniformLocation(program, "uModel");
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
     
-    var proj_matrix = getprojection(40, canvas.width/canvas.height, 1, 100);
-    var mod_matrix = [
+    var projmatrix = getprojection(40, canvas.width/canvas.height, 1, 100);
+    var modmatrix = [
         1,0,0,0,
         0,1,0,0,
         0,0,1,0,
         0,0,0,1];
-    var view_matrix = [
+    var viewmatrix = [
         1,0,0,0,
         0,1,0,0,
         0,0,1,0,
         0,0,0,1];
 
-    view_matrix[14] = view_matrix[14]-2;
+    viewmatrix[14] = viewmatrix[14]-2;
 
     var freeze = false;
     function onMouseClick(event){
@@ -82,18 +82,18 @@ function main(){
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
 
-    var time_old = 0;
+    var timeold = 0;
    function render(time) {
         if(!freeze){
-            var dt = time-time_old;
-            //translasi(mov_matrix);
-            rotasi(mod_matrix, dt*0.002);
+            var dt = time-timeold;
+            skalasi(modmatrix);
+            //rotasi(mod_matrix, 0.005);
             time_old = time;
         }
 
-        gl.uniformMatrix4fv(Pmatrix, false, proj_matrix);
-        gl.uniformMatrix4fv(Vmatrix, false, view_matrix);
-        gl.uniformMatrix4fv(Mmatrix, false, mod_matrix);
+        gl.uniformMatrix4fv(Pmatrix, false, projmatrix);
+        gl.uniformMatrix4fv(Vmatrix, false, viewmatrix);
+        gl.uniformMatrix4fv(Mmatrix, false, modmatrix);
 
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT);
