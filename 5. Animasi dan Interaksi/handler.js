@@ -1,6 +1,5 @@
-function translasi(m){
+function translasi(m, dx, dy, dz){
     //translasi
-    var dx = 0.002, dy = 0.002, dz = 0.0;
     m[12] = m[12] + dx;
     m[13] = m[13] + dy;
     m[14] = m[14] + dz;

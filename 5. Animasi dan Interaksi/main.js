@@ -82,13 +82,12 @@ function main(){
     document.addEventListener('keydown', onKeyDown, false);
     document.addEventListener('keyup', onKeyUp, false);
 
-    var timeold = 0;
+
+   translasi(modmatrix, 0.7, 0.6, 0.0);
    function render(time) {
         if(!freeze){
-            var dt = time-timeold;
             skalasi(modmatrix);
-            //rotasi(mod_matrix, 0.005);
-            time_old = time;
+            //rotasi(modmatrix, 0.005);
         }
 
         gl.uniformMatrix4fv(Pmatrix, false, projmatrix);
