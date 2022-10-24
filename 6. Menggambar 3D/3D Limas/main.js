@@ -3,30 +3,39 @@ function main(){
     var gl = canvas.getContext("webgl");
 
     var vertices = [
-        0.0,0.0,0.5,    //titik A
-        0.5,0.0,0.5,    //titik B
-        0.5,0.0,0.0,    //titik C
-        0.0,0.0,0.0,    //titik D
-        0.25,0.5,0.25   //titik E
+        0.0,0.0,0.5,    //titik A 0
+        0.5,0.0,0.5,    //titik B 1
+        0.5,0.0,0.0,    //titik C 2
+        0.0,0.0,0.0,    //titik D 3
+        0.25,0.5,0.25   //titik E 4
+    ];
+
+    var triangles = [
+        0.0,0.0,0.5, 0.5,0.0,0.5, 0.5,0.0,0.0, 0.0,0.0,0.0,  //abcd
+        0.0,0.0,0.5, 0.0,0.0,0.0, 0.25,0.5,0.25,             //ade
+        0.5,0.0,0.0, 0.0,0.0,0.0, 0.25,0.5,0.25,             //cde
+        0.5,0.0,0.5, 0.5,0.0,0.0, 0.25,0.5,0.25,             //bce
+        0.0,0.0,0.5, 0.5,0.0,0.5, 0.25,0.5,0.25              //abe
     ];
     
     var colors = [
-        1,0,0, 1,0,0, 1,0,0,   //merah
-        1,1,0, 1,1,0, 1,1,0,    //kuning
-        0,1,0, 0,1,0, 0,1,0     //hijau
+       1,0,0, 1,0,0, 1,0,0, 1,0,0,
+       0,1,0, 0,1,0, 0,1,0,
+       0,0,1, 0,0,1, 0,0,1,
+       1,0,1, 1,0,1, 1,0,1,
+       0,1,1, 0,1,1, 0,1,1
     ];
 
     var indices = [
-       0,1, 1,2, 2,3, 3,0,
-       2,3, 3,4, 2,4,
-       0,3, 0,4, ,3,4,
-       1,2, 1,4, 2,4
+       0,1,2, 0,2,3,
+       4,5,6, 7,8,9,
+       10,11,12, 13,14,15
     ];
 
     //vertex buffer
     var vertexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangles), gl.STATIC_DRAW);
     
     //color buffer
     var colorBuffer = gl.createBuffer();
@@ -132,7 +141,7 @@ function main(){
         gl.uniformMatrix4fv(Mmatrix, false, modmatrix);
 
         gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.drawElements(gl.LINES, indices.length, gl.UNSIGNED_SHORT, 0);
+        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
 
         window.requestAnimationFrame(animate);
     }    
